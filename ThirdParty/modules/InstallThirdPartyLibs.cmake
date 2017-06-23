@@ -9,7 +9,7 @@ endif()
 # Download and install the bsonio library
 ExternalProject_Add(BSONIO
     PREFIX thirdparty
-    GIT_REPOSITORY https://dmiron@bitbucket.org/gems4/bsonio.git 
+#    GIT_REPOSITORY https://dmiron@bitbucket.org/gems4/bsonio.git 
 #    GIT_TAG TCorrPT
     UPDATE_COMMAND ""
     CMAKE_ARGS -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
@@ -28,6 +28,17 @@ ExternalProject_Add(BSONIO
 #               -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 #               -DBUILD_SHARED_LIBS=ON
 #)
+
+# Download and install the bsonio library
+ExternalProject_Add(GEMS4R
+    PREFIX thirdparty
+    GIT_REPOSITORY https://dmiron@bitbucket.org/gems4/gems4r.git
+    UPDATE_COMMAND ""
+    CMAKE_ARGS -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRDPARTY_DIR}
+               -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+               -DBUILD_SHARED_LIBS=ON
+)
 
 
 # Create the install target for the third-party libraries

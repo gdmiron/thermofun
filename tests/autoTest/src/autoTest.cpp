@@ -1,3 +1,6 @@
+#define IPMGEMPLUGIN
+#define NOPARTICLEARRAY
+
 #include <iostream>
 #include <fstream>
 #include <sys/time.h>
@@ -8,6 +11,7 @@
 #include "node.h"
 
 #pragma GCC diagnostic ignored "-fpermissive"
+
 
 using namespace std;
 using namespace ThermoFun;

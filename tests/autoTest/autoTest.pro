@@ -17,7 +17,7 @@ LIBPATH += "/usr/local/lib/"
 
 DEFINES += IPMGEMPLUGIN
 #DEFINES += NODEARRAYLEVEL
-DEFINES += NOPARTICLEARRAY
+#DEFINES += NOPARTICLEARRAY
 
 ThermoFun_TEST_CPP = ./src
 ThermoFun_CPP   =  ../../../thermofun/src

@@ -22,6 +22,19 @@ ExternalProject_Add(BSONIO
                -DBUILD_SHARED_LIBS=ON
 )
 
+if(LINK_GEMS4R)
+set(REAKTORO_TAG gems)
+ExternalProject_Add(GEMS4R
+    PREFIX thirdparty
+    GIT_REPOSITORY https://dmiron@bitbucket.org/gems4/gems4r.git
+    UPDATE_COMMAND ""
+    CMAKE_ARGS -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${THIRDPARTY_DIR}
+               -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+               -DBUILD_SHARED_LIBS=ON
+)
+endif()
+
 
 # Create the install target for the third-party libraries
 install(DIRECTORY ${THIRDPARTY_DIR}/lib 
