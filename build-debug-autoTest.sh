@@ -27,3 +27,11 @@ cd ../build/debug/
 cmake ../../thermofun/ $CMAKE_FILE_DIR -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 
 make -j$J
+
+cd tests
+
+cd autoTest
+
+./autoTest
+
+

@@ -75,11 +75,11 @@ auto compare (ThermoPropertiesSubstance result_gems, ThermoPropertiesSubstance r
 
 int main(int argc, char *argv[])
 {
-    struct timeval start, middle, end;
+    struct timeval start, now_gems, now_tfun, end;
     gettimeofday(&start, NULL);
     int xCH;
 
-    cout << "Hello World!" << endl;
+    cout << endl << "+++ Test started: comparing thermodynamic properties calculated by GEM4R with properties calculated by ThermoFun +++ " << endl << endl;
 
     string file = "Resources/test_multi_new.VertexSubstance.json";
     char config_json_file_path[256] = "Resources/GEMS4/TestMulti";
@@ -87,18 +87,22 @@ int main(int argc, char *argv[])
     TNode* node = new TNode();
     node->GEM_init(config_json_file_path);
 
-    Database temp(file);
-    Database tdb;
-    vector<Substance> vSubst = temp.getSubstances();
+    gettimeofday(&now_gems, NULL);
+    double delta_gems = ((now_gems.tv_sec  - start.tv_sec) * 1000000u +
+             now_gems.tv_usec - start.tv_usec) / 1.e6;
+
+    Database tdb(file);
+//    Database tdb;
+    vector<Substance> vSubst = tdb.getSubstances();
 
     /// adding the names of the solvent to be used in the aqueous species properties
     /// calculations
-    for (int i = 0; i < vSubst.size(); i++)
-    {
-//        if (vSubst[i].substanceClass() == SubstanceClass::type::AQSOLUTE)
-//        vSubst[i].setSolventSymbol("H2O@");
-        tdb.addSubstance(vSubst[i]);
-    }
+//    for (int i = 0; i < vSubst.size(); i++)
+//    {
+////        if (vSubst[i].substanceClass() == SubstanceClass::type::AQSOLUTE)
+////        vSubst[i].setSolventSymbol("H2O@");
+//        tdb.addSubstance(vSubst[i]);
+//    }
 
     double T;
     double P;
@@ -139,9 +143,9 @@ int main(int argc, char *argv[])
     out.openThermoPropertiesSubstanceFile("CompareP0_T5_370.csv");
 
     P=1;
-    gettimeofday(&middle, NULL);
-    double delta = ((middle.tv_sec  - start.tv_sec) * 1000000u +
-             middle.tv_usec - start.tv_usec) / 1.e6;
+    gettimeofday(&now_tfun, NULL);
+    double delta_tfun = ((now_tfun.tv_sec  - now_gems.tv_sec) * 1000000u +
+             now_tfun.tv_usec - now_gems.tv_usec) / 1.e6;
 
     P = 5000; T = 25;
     // test PRSV
@@ -292,10 +296,10 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < vSubst.size(); i++)
         {
-            if( T == 800 && P == 5000 && vSubst[i].symbol() == "Quartz")
-            {
-                cout << "here" << endl;
-            }
+//            if( T == 800 && P == 5000 && vSubst[i].symbol() == "Quartz")
+//            {
+//                cout << "here" << endl;
+//            }
 
             result_tcorrpt = thermo.thermoPropertiesSubstance(T,P,vSubst[i].symbol());
             out.writeThermoPropertiesSubstance( vSubst[i].symbol() + "_TCorrPT", T, P, result_tcorrpt);
@@ -318,13 +322,14 @@ int main(int argc, char *argv[])
     out.closeThermoPropertiesSubstanceFile();
 
     gettimeofday(&end, NULL);
-    double delta_calc = ((end.tv_sec  - middle.tv_sec) * 1000000u +
-             end.tv_usec - middle.tv_usec) / 1.e6;
+    double delta_calc = ((end.tv_sec  - now_tfun.tv_sec) * 1000000u +
+             end.tv_usec - now_tfun.tv_usec) / 1.e6;
     cout << "==================================================================" << endl;
-    cout << "+ Time for GEMS4R and TCorrPT initialization: " << delta << "s "<< endl;
+    cout << "+ Time for GEMS4R initialization: " << delta_gems << "s "<< endl;
+    cout << "+ Time for ThermoFun initialization: " << delta_tfun << "s "<< endl;
     cout << "+ Time for "<< c << " T-P calculations: "<< delta_calc << "s " << endl;
-    cout << "+ Total time: " << delta + delta_calc << "s "<< endl;
-    cout << "==================================================================" << endl<< endl;
+    cout << "+ Total time: " << delta_gems + delta_tfun + delta_calc << "s "<< endl;
+    cout << "==================================================================" << endl << endl;
 
 
 
