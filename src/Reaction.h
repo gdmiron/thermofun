@@ -139,14 +139,21 @@ public:
 //    /// Return the formula of the chemical Reaction
 //    auto formula() const -> std::string;
 
+//    /// Calculates record parameters based on the defined method and available data
+//    auto calcParameters () -> void;
+
+    /// Returns the vector of logK as a function of T coefficients calculated based on the defined method and the available data
+    auto calc_logK_fT_coefficients(bool lg10) -> vd;
 
 private:
 
     /// Converts the Cp as a function of T coefficients into logK as a function of T coefficients
-    auto convert_CpfT_to_logKfT() -> void;
+    auto convert_CpfT_to_logKfT() -> ThermoPropertiesReaction;
 
     /// Converst the logK as a function of T coefficients into Cp as a function of T coefficients
-    auto convert_logKfT_toCpfT(MethodCorrT_Thrift::type methodT) -> void;
+    auto convert_logKfT_toCpfT() -> ThermoPropertiesReaction;
+
+    auto logK_params_from_123TermExtrapolations() -> ThermoPropertiesReaction;
 
     struct Impl;
 
